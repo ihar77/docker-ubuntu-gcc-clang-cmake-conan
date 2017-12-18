@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:xenial
 
 LABEL maintainer="info@micheleadduci.net"
 
@@ -15,20 +15,25 @@ RUN echo "*** Installing gcc (4.9->7) and clang (3.8->5) ***" \
       deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" \
       > /etc/apt/sources.list.d/ppa-test.list \
       && apt-get update \
+      && apt-get install -y \
+                    software-properties-common \
+                    wget \
+      && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+      && apt-get update \
       && apt-get dist-upgrade -y \
-      apt-get install -y \
-      cmake \
+      && apt-get install -y cmake \
       && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 60C317803A41BA51845E371A1E9377A2BA9EF27F \
-      && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add - \
       && apt-get -qq update && apt-get install -y --no-install-recommends gcc-7 g++-7 \
+      && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
+      && apt-get update \
       && apt-get install -y clang-3.8 clang++-3.8 \
-      && apt-get install -y clang-3.9 clang++-3.9 \
-      && apt-get install -y clang-4.0 clang++-4.0 \
-      && apt-get install -y clang-5.0 clang++-5.0 \
+      apt-get install -y clang-3.9 clang++-3.9 \
+      apt-get install -y clang-4.0 clang++-4.0 \
+      apt-get install -y clang-5.0 clang++-5.0 \
       && apt-get autoremove --purge -y \
       && apt-get autoclean -y \
       && rm -rf /var/cache/apt/* /tmp/* \
-      echo "Setting gcc and g++ 7 as default compiler" \
+      && echo "Setting gcc and g++ 7 as default compiler" \
       && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-7 \
       && update-alternatives --config gcc
 
