@@ -27,9 +27,9 @@ RUN echo "*** Installing gcc (4.9->7) and clang (3.8->5) ***" \
       && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
       && apt-get update \
       && apt-get install -y clang-3.8 clang++-3.8 \
-      apt-get install -y clang-3.9 clang++-3.9 \
-      apt-get install -y clang-4.0 clang++-4.0 \
-      apt-get install -y clang-5.0 clang++-5.0 \
+      && apt-get install -y clang-3.9 clang++-3.9 \
+      && apt-get install -y clang-4.0 clang++-4.0 \
+      && apt-get install -y clang-5.0 clang++-5.0 \
       && apt-get autoremove --purge -y \
       && apt-get autoclean -y \
       && rm -rf /var/cache/apt/* /tmp/* \
