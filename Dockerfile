@@ -1,39 +1,39 @@
-FROM ubuntu:xenial
+FROM ubuntu:18.04
 
-LABEL maintainer="info@micheleadduci.net"
+LABEL maintainer="ihar@ukr.net"
 
 WORKDIR /project
 
 RUN echo "*** Installing gcc (4.9->7) and clang (3.8->5) ***" \
       # GCC
-      && echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main \
-      deb-src http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main" \
-      > /etc/apt/sources.list.d/ppa-test.list \
+#      && echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main \
+#      deb-src http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main" \
+#      > /etc/apt/sources.list.d/ppa-test.list \
       && apt-get update \
       && apt-get install -y \
 #                    software-properties-common \
                      wget \
+                     gnupg \
 #      && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
       && apt-get update \
       && apt-get dist-upgrade -y --allow-unauthenticated \
       && apt-get install -y --allow-unauthenticated cmake \
-      && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 60C317803A41BA51845E371A1E9377A2BA9EF27F \
-      && apt-get -qq update && apt-get install -y --allow-unauthenticated --no-install-recommends gcc-7 g++-7 \
+#      && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 60C317803A41BA51845E371A1E9377A2BA9EF27F \
+      && apt-get -qq update && apt-get install -y --allow-unauthenticated --no-install-recommends gcc-7 g++-7 gcc-8 g++-8 \
       # LLVM
-      && echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main \
-      deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial main \
-      deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main \
-      deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main \
-      deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main \
-      deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" \
-      > /etc/apt/sources.list.d/llvm.list \
+# && echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main \
+#     deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial main \
+#      deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main \
+#      deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main \
+#      deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main \
+#      deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" \
+#       > /etc/apt/sources.list.d/llvm.list \
       && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
 #      && apt-add-repository -y "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" \
 #      && apt-add-repository -y "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main" \
       && apt-get update \
+      && apt-get install -y clang-6.0 clang++-6.0 lldb-6.0 lld-6.0 \
       && apt-get install -y clang-5.0 clang++-5.0 lldb-5.0 lld-5.0 \
-      && apt-get install -y clang-3.8 clang++-3.8 \
-      && apt-get install -y clang-3.9 clang++-3.9 \
       && apt-get install -y clang-4.0 clang++-4.0 \
       && apt-get autoremove --purge -y \
       && apt-get autoclean -y \
