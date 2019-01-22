@@ -1,6 +1,6 @@
 # docker-linux-cpp
 
-[![Build Status](https://travis-ci.org/ihar77/gcc_clang_cmake_boost?branch=master)](https://travis-ci.org/ihar77/gcc_clang_cmake_boost)
+[![Build Status](https://travis-ci.org/ihar77/gcc_clang_cmake_boost.swg?branch=master)](https://travis-ci.org/ihar77/gcc_clang_cmake_boost)
 
 A basic docker image for C++ developers, featuring g++ (from 4.9 up to 7.x) and clang++ (from 4 to 7), CMake, Conan. The default compiler is g++ 7, but you're free to modify the Dockerfile and set your own; as example, if you want to set g++ 4.9 as the default compiler, just write the following Dockerfile and build a new image:
 The project was insired by madduci/docker-linux-cpp (https://github.com/madduci/docker-linux-cpp), but based on Ubuntu 18.04 
