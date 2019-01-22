@@ -4,34 +4,30 @@ LABEL maintainer="ihar@ukr.net"
 
 WORKDIR /project
 
-RUN echo "*** Installing gcc (4.9->7) and clang (3.8->5) ***" \
+RUN echo "*** Installing gcc (7->8) and clang (4->7) ***" \
       # GCC
-#      && echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main \
-#      deb-src http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu xenial main" \
-#      > /etc/apt/sources.list.d/ppa-test.list \
       && apt-get update \
       && apt-get install -y \
-#                    software-properties-common \
                      wget \
                      gnupg \
-#      && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+                     xz-utils \
+                     build-essential \
+                     curl \
+                     python-dev \
+                     python-pip \
       && apt-get update \
       && apt-get dist-upgrade -y --allow-unauthenticated \
       && apt-get install -y --allow-unauthenticated cmake \
-#      && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 60C317803A41BA51845E371A1E9377A2BA9EF27F \
       && apt-get -qq update && apt-get install -y --allow-unauthenticated --no-install-recommends gcc-7 g++-7 gcc-8 g++-8 \
       # LLVM
-# && echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main \
-#     deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial main \
-#      deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main \
-#      deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main \
-#      deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main \
-#      deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" \
-#       > /etc/apt/sources.list.d/llvm.list \
       && wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
-#      && apt-add-repository -y "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-5.0 main" \
-#      && apt-add-repository -y "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main" \
       && apt-get update \
+      # clang 7
+      && curl -SL http://releases.llvm.org/7.0.1/clang+llvm-7.0.1-x86_64-linux-gnu-ubuntu-18.04.tar.xz | tar -xJC . \
+      && mv clang+llvm-7.0.1-x86_64-linux-gnu-ubuntu-18.04 clang_7.0.1 \
+      && echo 'export PATH=/clang_7.0.1/bin:$PATH' >> ~/.bashrc \
+      && echo 'export LD_LIBRARY_PATH=/clang_7.0.1/lib:LD_LIBRARY_PATH' >> ~/.bashrc \
+      # end clang 7
       && apt-get install -y clang-6.0 clang++-6.0 lldb-6.0 lld-6.0 \
       && apt-get install -y clang-5.0 clang++-5.0 lldb-5.0 lld-5.0 \
       && apt-get install -y clang-4.0 clang++-4.0 \
@@ -41,7 +37,13 @@ RUN echo "*** Installing gcc (4.9->7) and clang (3.8->5) ***" \
       && echo "Setting gcc and g++ 7 as default compiler" \
       && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-7 \
       && update-alternatives --config gcc \
-      && wget -O /tmp/conan.deb -L http://downloads.conan.io/latest_debian \ 
-      && dpkg -i /tmp/conan.deb
+      && update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-4.0 100 \
+      && update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-6.0 1000 \
+      && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-4.0 100 \
+      && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 1000 \
+      && update-alternatives --config clang \
+      && update-alternatives --config clang++ \
+      && pip install conan \
+      && conan install boost/1.69.0@conan/stable
 
 ENTRYPOINT [ "/usr/bin/g++" ]

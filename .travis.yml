@@ -6,7 +6,7 @@ services:
   - docker
 
 install:
-  - docker build -t madduci/docker-linux-cpp:latest .
+  - docker build -t ihar77/gcc_clang_cmake_boost .
 
 script:
   - docker images
