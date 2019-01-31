@@ -15,6 +15,8 @@ RUN echo "*** Installing gcc (7->8) and clang (4->7) ***" \
                      curl \
                      python-dev \
                      python-pip \
+                     gdb \
+                     gdbserver \
       && apt-get update \
       && apt-get dist-upgrade -y --allow-unauthenticated \
       && apt-get install -y --allow-unauthenticated cmake \
@@ -45,5 +47,15 @@ RUN echo "*** Installing gcc (7->8) and clang (4->7) ***" \
       && update-alternatives --config clang++ \
       && pip install conan \
       && conan install boost/1.69.0@conan/stable
+
+RUN useradd -ms /bin/bash develop
+RUN echo "develop   ALL=(ALL:ALL) ALL" >> /etc/sudoers
+
+# for gdbserver
+EXPOSE 2000
+
+USER develop
+VOLUME "/home/develop/project"
+WORKDIR "/home/develop/project"
 
 ENTRYPOINT [ "/usr/bin/g++" ]
