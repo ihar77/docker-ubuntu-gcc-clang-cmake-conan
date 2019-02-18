@@ -6,7 +6,8 @@ services:
   - docker
 
 install:
-  - docker build -t ihar77/gcc_clang_cmake_boost .
+    - docker build -t ihar77/cpp-base-builder ./docker_base_builder/
+    - sudo docker build -t ihar77/cpp-project-builder .
 
 script:
   - docker images
