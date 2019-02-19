@@ -1,4 +1,4 @@
-FROM ihar77/cpp-basic-builder
+FROM ihar77/cpp-base-builder
 
 LABEL maintainer="ihar@ukr.net"
 
