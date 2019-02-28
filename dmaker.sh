@@ -6,6 +6,7 @@ docker stop base-docker-ubuntu-gcc-clang-cmake-conan
 docker rm base-docker-ubuntu-gcc-clang-cmake-conan
 docker run \
 	-it \
+    --entrypoint="" \
 	--name base-docker-ubuntu-gcc-clang-cmake-conan \
 	-p 2000:2000 \
 	-v ${cwd}:/home/project \
