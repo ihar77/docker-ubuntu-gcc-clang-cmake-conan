@@ -2,15 +2,14 @@
 
 cwd=$(pwd)
 
-docker stop cpp-project-builder
-docker rm cpp-project-builder
-
+docker stop base-docker-ubuntu-gcc-clang-cmake-conan
+docker rm base-docker-ubuntu-gcc-clang-cmake-conan
 docker run \
 	-it \
-	--name cpp-project-builder \
+	--name base-docker-ubuntu-gcc-clang-cmake-conan \
 	-p 2000:2000 \
 	-v ${cwd}:/home/project \
 	--privileged \
-	ihar77/cpp-project-builder \
+	ihar77/base-docker-ubuntu-gcc-clang-cmake-conan \
     /bin/bash -c "${@}" 
 

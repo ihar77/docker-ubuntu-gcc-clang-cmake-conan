@@ -1,4 +1,4 @@
-FROM ihar77/cpp-base-builder
+FROM ihar77/base-docker-ubuntu-gcc-clang-cmake-conan 
 
 LABEL maintainer="ihar@ukr.net"
 
@@ -8,3 +8,4 @@ USER develop
 VOLUME "/home/project"
 WORKDIR "/home/project"
 
+ENTRYPOINT [ "/usr/bin/g++" ]
