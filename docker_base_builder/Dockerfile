@@ -46,10 +46,8 @@ RUN echo "*** Installing gcc (7->8) and clang (4->7) ***" \
       && update-alternatives --config clang \
       && update-alternatives --config clang++ \
       && pip install conan
-      #&& conan install boost/1.69.0@conan/stable
-
-RUN useradd -ms /bin/bash develop
-RUN echo "develop   ALL=(ALL:ALL) ALL" >> /etc/sudoers
+      && useradd -ms /bin/bash develop
+      && echo "develop   ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
 # for gdbserver
 EXPOSE 2000
@@ -58,4 +56,3 @@ USER develop
 VOLUME "/home/project"
 WORKDIR "/home/project"
 
-ENTRYPOINT [ "/usr/bin/g++" ]
