@@ -13,6 +13,7 @@ RUN echo "*** Installing gcc (7->8) and clang (4->7) ***" \
                      xz-utils \
                      build-essential \
                      curl \
+                     python3 \
                      python-dev \
                      python-pip \
                      gdb \
@@ -45,8 +46,8 @@ RUN echo "*** Installing gcc (7->8) and clang (4->7) ***" \
       && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 1000 \
       && update-alternatives --config clang \
       && update-alternatives --config clang++ \
-      && pip install conan
-      && useradd -ms /bin/bash develop
+      && pip install conan \
+      && useradd -ms /bin/bash develop \
       && echo "develop   ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
 # for gdbserver
